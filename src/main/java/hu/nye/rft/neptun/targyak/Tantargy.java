@@ -1,13 +1,9 @@
 package hu.nye.rft.neptun.targyak;
 
 import hu.nye.rft.neptun.database.SQLServer;
-import hu.nye.rft.neptun.login.Login;
-import hu.nye.rft.neptun.user.User;
+import hu.nye.rft.neptun.database.User;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 
 public class Tantargy {

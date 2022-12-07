@@ -97,6 +97,7 @@ public class SQLServer {
 
     public void listazas() throws SQLException {
         System.out.println("Tárgyak listája");
+        System.out.println("Tárgynév | Előadó neve | Időpont | Szabad helyek");
         Statement st = connection.createStatement();
         String command = "SELECT * FROM TARGYAK";
         ResultSet rs = st.executeQuery(command);
@@ -115,16 +116,28 @@ public class SQLServer {
         String command = "SELECT * FROM TARGYAK";
         Statement st = connection.createStatement();
         ResultSet rs = st.executeQuery(command);
+        int van = 0;
         while(rs.next()) {
             String ttargy = rs.getString("TARGYNEV");
+            if(ttargy.equals(targy)) {
+                van++;
+            }
             String eloado = rs.getString("ELOADONEV");
             String idopont = rs.getString("IDOPONT");
             int helyek = rs.getInt("SZABADHELYEK");
+            if(van == 0) {
+                System.out.println("Nincs ilyen tárgy");
+                break;
+            }
             if(ttargy.equals(targy)) {
                 if(helyek>0) {
                     System.out.println("Tantárgy felvéve");
-                    String comm = "UPDATE TARGYAK SET SZABADHELYEK = "+(helyek-1)+" WHERE TARGYNEV = "+targy;
+                    String comm = "UPDATE TARGYAK SET SZABADHELYEK = "+(helyek-1)+" WHERE TARGYNEV = '"+targy+"'";
                     st.executeUpdate(comm);
+                    break;
+                } else {
+                    System.out.println("Nincs több szabad hely");
+                    break;
                 }
             }
         }

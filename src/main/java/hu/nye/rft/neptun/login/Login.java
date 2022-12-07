@@ -1,7 +1,7 @@
 package hu.nye.rft.neptun.login;
 
 import hu.nye.rft.neptun.database.SQLServer;
-import hu.nye.rft.neptun.user.User;
+import hu.nye.rft.neptun.database.User;
 
 import java.sql.SQLException;
 import java.util.Scanner;

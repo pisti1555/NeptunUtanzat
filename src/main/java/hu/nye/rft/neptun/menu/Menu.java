@@ -27,7 +27,7 @@ public class Menu {
             case 1: {
                 server.listazas();
                 System.out.println("Melyik tárgyat veszed fel?");
-                String targy = scanner.next();
+                String targy = scanner.next().toUpperCase();
                 server.targyFelvetel(targy);
             }break;
             case 2: {
@@ -46,7 +46,7 @@ public class Menu {
         }
     }
 
-    private boolean eloadoE() {
+    public boolean eloadoE() {
         Scanner scanner = new Scanner(System.in);
         boolean eloado = false;
         System.out.println("Előado(1) vagy diák(2) vagy?");
