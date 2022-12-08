@@ -6,6 +6,9 @@ import hu.nye.rft.neptun.database.User;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+/**
+ * targyakkal kapcsolatos.
+ */
 public class Tantargy {
     SQLServer server;
     User user;
@@ -15,6 +18,9 @@ public class Tantargy {
         this.user = user;
     }
 
+    /**
+     * hozzaad egy targyat a targyak tablahoz.
+     */
     public void hozzaad() throws SQLException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Tantárgy hozzáadása\nTárgy neve: ");
@@ -27,7 +33,7 @@ public class Tantargy {
         String idopont = scanner.next();
         System.out.println("Még szabad helyek száma: ");
         int helyek = scanner.nextInt();
-        if(!server.letezikEIlyenTargy(targy)) {
+        if (!server.letezikEIlyenTargy(targy)) {
             server.insertTantargy(targy, nev, idopont, helyek);
         } else {
             System.out.println("Már létezik a tantárgy");

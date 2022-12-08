@@ -5,10 +5,11 @@ import hu.nye.rft.neptun.database.SQLServer;
 import hu.nye.rft.neptun.targyak.Tantargy;
 
 import java.sql.SQLException;
-import java.sql.SQLOutput;
-import java.sql.SQLSyntaxErrorException;
 import java.util.Scanner;
 
+/**
+ * menu.
+ */
 public class Menu {
     Tantargy targy;
     SQLServer server;
@@ -19,6 +20,9 @@ public class Menu {
         this.server = server;
     }
 
+    /**
+     * menut kiirja es valaszthatunk.
+     */
     public void menu() throws SQLException {
         boolean eloado = eloadoE();
         System.out.println("1: Tárgyfelvétel | 2: Tárgy hozzáadása(Ha előadó vagy) | 9: Kilépés");
@@ -29,23 +33,30 @@ public class Menu {
                 System.out.println("Melyik tárgyat veszed fel?");
                 String targy = scanner.next().toUpperCase();
                 server.targyFelvetel(targy);
-            }break;
+            }
+            break;
             case 2: {
-                if(eloado) {
+                if (eloado) {
                     targy.hozzaad();
                 } else {
                     System.out.println("Ehhez nincs jogosultságod");
                 }
-            }break;
+            }
+            break;
             case 9: {
                 System.exit(0);
-            }break;
+            }
+            break;
             default: {
                 System.out.println("Vmi nem jó menu switch");
-            }break;
+            }
+            break;
         }
     }
 
+    /**
+     * megkerdezi eloado vagy e.
+     */
     public boolean eloadoE() {
         Scanner scanner = new Scanner(System.in);
         boolean eloado = false;
@@ -54,14 +65,17 @@ public class Menu {
         switch (valasz) {
             case 1: {
                 eloado = true;
-            }break;
+            }
+            break;
             case 2: {
                 eloado = false;
-            }break;
+            }
+            break;
             default: {
                 System.out.println("Ismeretlen parancs");
                 eloadoE();
-            }break;
+            }
+            break;
         }
         return eloado;
     }

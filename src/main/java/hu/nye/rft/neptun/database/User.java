@@ -1,12 +1,13 @@
 package hu.nye.rft.neptun.database;
 
-import hu.nye.rft.neptun.database.SQLServer;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * felhasznalo adatai.
+ */
 public class User {
     private final Connection connection;
     private final SQLServer server;
@@ -21,6 +22,9 @@ public class User {
         this.server = server;
     }
 
+    /**
+     * megnezi van e ilyen felhasznalo a rendszerben.
+     */
     public boolean findUser(String neptunKod) throws SQLException {
         String find = "SELECT NEPTUNKOD FROM USERS";
         Statement st = connection.createStatement();
@@ -37,6 +41,9 @@ public class User {
         return valid;
     }
 
+    /**
+     * megnezi jo jelszot adott e be.
+     */
     public boolean isPwCorrect(String neptunKod, String pw) throws SQLException {
         String find = "SELECT NEPTUNKOD, JELSZO FROM USERS";
         Statement st = connection.createStatement();

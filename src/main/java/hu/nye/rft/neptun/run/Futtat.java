@@ -7,6 +7,9 @@ import hu.nye.rft.neptun.menu.Menu;
 
 import java.sql.SQLException;
 
+/**
+ * futtat osztalya.
+ */
 public class Futtat {
     Menu menu;
     SQLServer server;
@@ -18,11 +21,14 @@ public class Futtat {
         this.login = login;
     }
 
+    /**
+     * osszeszedve a program ide.
+     */
     public void futtat() throws SQLException {
         server.createDatabaseIfNotExists();
         server.createTantargyakIfNotExists();
         login.belepes();
-        while(true) {
+        while (true) {
             menu.menu();
         }
     }

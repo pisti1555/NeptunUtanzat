@@ -2,12 +2,18 @@ package hu.nye.rft.neptun.database;
 
 import java.sql.*;
 
+/**
+ * sql parancsok.
+ */
 public class SQLServer {
     public Connection connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/neptun", "sa", "pass");
 
     public SQLServer() throws SQLException {
     }
 
+    /**
+     * ha nem letezik tabla megcsinalja.
+     */
     public void createDatabaseIfNotExists() throws SQLException {
         String command = "CREATE TABLE IF NOT EXISTS USERS " +
                 "(VNEV VARCHAR(40), " +
@@ -19,6 +25,9 @@ public class SQLServer {
         st.executeUpdate(command);
     }
 
+    /**
+     * ha nem letezik tabla megcsinalja.
+     */
     public void createTantargyakIfNotExists() throws SQLException {
         String command = "CREATE TABLE IF NOT EXISTS TARGYAK " +
                 "(TARGYNEV VARCHAR(20) PRIMARY KEY, ELOADONEV VARCHAR (40), IDOPONT VARCHAR(10), SZABADHELYEK INTEGER)";
@@ -26,6 +35,9 @@ public class SQLServer {
         st.executeUpdate(command);
     }
 
+    /**
+     * beszur egy felhasznalot.
+     */
     public void insertUser(String vnev, String knev, String neptunKod, String jelszo) throws SQLException {
         String insert = "INSERT INTO USERS (VNEV, KNEV, NEPTUNKOD, JELSZO) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement pst = connection.prepareStatement(insert);
@@ -36,6 +48,9 @@ public class SQLServer {
         pst.executeUpdate();
     }
 
+    /**
+     * beszur egy targyat.
+     */
     public void insertTantargy(String targy, String eloado, String idopont, int helyek) throws SQLException {
         String insert = "INSERT INTO TARGYAK (TARGYNEV, ELOADONEV, IDOPONT, SZABADHELYEK) VALUES(?, ?, ?, ?)";
         PreparedStatement pst = connection.prepareStatement(insert);
@@ -46,6 +61,9 @@ public class SQLServer {
         pst.executeUpdate();
     }
 
+    /**
+     * megnezi van e mar ilyen targy.
+     */
     public boolean letezikEIlyenTargy(String targy) throws SQLException {
         String find = "SELECT TARGYNEV FROM TARGYAK";
         Statement st = connection.createStatement();
@@ -61,6 +79,9 @@ public class SQLServer {
         return i != 0;
     }
 
+    /**
+     * vezeteknev.
+     */
     public String miAVNeve(String neptunKod) throws SQLException {
         String find = "SELECT * FROM USERS";
         Statement st = connection.createStatement();
@@ -78,6 +99,9 @@ public class SQLServer {
         return toReturn;
     }
 
+    /**
+     * keresztnev.
+     */
     public String miAKNeve(String neptunKod) throws SQLException {
         String find = "SELECT * FROM USERS";
         Statement st = connection.createStatement();
@@ -95,44 +119,50 @@ public class SQLServer {
         return toReturn;
     }
 
+    /**
+     * targyak listazasa.
+     */
     public void listazas() throws SQLException {
         System.out.println("Tárgyak listája");
         System.out.println("Tárgynév | Előadó neve | Időpont | Szabad helyek");
         Statement st = connection.createStatement();
         String command = "SELECT * FROM TARGYAK";
         ResultSet rs = st.executeQuery(command);
-        int i=1;
-        while(rs.next()) {
+        int i = 1;
+        while (rs.next()) {
             String targy = rs.getString("TARGYNEV");
             String eloado = rs.getString("ELOADONEV");
             String idopont = rs.getString("IDOPONT");
             int helyek = rs.getInt("SZABADHELYEK");
-            System.out.println(i+". "+targy+" | "+eloado+" | "+idopont+" | "+helyek);
+            System.out.println(i + ". " + targy + " | " + eloado + " | " + idopont + " | " + helyek);
             i++;
         }
     }
 
+    /**
+     * targy felvetele.
+     */
     public void targyFelvetel(String targy) throws SQLException {
         String command = "SELECT * FROM TARGYAK";
         Statement st = connection.createStatement();
         ResultSet rs = st.executeQuery(command);
         int van = 0;
-        while(rs.next()) {
+        while (rs.next()) {
             String ttargy = rs.getString("TARGYNEV");
-            if(ttargy.equals(targy)) {
+            if (ttargy.equals(targy)) {
                 van++;
             }
             String eloado = rs.getString("ELOADONEV");
             String idopont = rs.getString("IDOPONT");
             int helyek = rs.getInt("SZABADHELYEK");
-            if(van == 0) {
+            if (van == 0) {
                 System.out.println("Nincs ilyen tárgy");
                 break;
             }
-            if(ttargy.equals(targy)) {
-                if(helyek>0) {
+            if (ttargy.equals(targy)) {
+                if (helyek > 0) {
                     System.out.println("Tantárgy felvéve");
-                    String comm = "UPDATE TARGYAK SET SZABADHELYEK = "+(helyek-1)+" WHERE TARGYNEV = '"+targy+"'";
+                    String comm = "UPDATE TARGYAK SET SZABADHELYEK = " + (helyek - 1) + " WHERE TARGYNEV = '" + targy + "'";
                     st.executeUpdate(comm);
                     break;
                 } else {
